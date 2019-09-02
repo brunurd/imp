@@ -1,4 +1,7 @@
 from PIL import Image
-filename = r'icon.png'
-img = Image.open(filename)
-img.save('../imp.ico')
+
+input_path = r'icon.png'
+output_path = r'../imp.ico'
+
+image = Image.open(input_path)
+image.save(output_path)
