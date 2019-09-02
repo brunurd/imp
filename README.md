@@ -1,8 +1,4 @@
-
-
-
-# imp 
-<img src="icon/icon.png" width="64" height="64">
+<h1><img src="icon/icon.png" align="left" width="32" height="32">imp</h1>
 Python 3 image processing cli.
 
 
