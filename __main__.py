@@ -37,10 +37,6 @@ def get_flag(flag_name):
     return None
 
 
-command = get_arg(1, 'command', ['resize', 'trim'])
-path = get_arg(2, 'path')
-
-
 def resize(_path, width, height):
     if width == None or height == None:
         raise Exception(f'--width or --height flag not set.')
@@ -52,7 +48,6 @@ def resize(_path, width, height):
     image = Image.open(_path)
     resized_image = image.resize(size, Image.ANTIALIAS)
     resized_image.save(_path, 'PNG')
-
 
 
 def trim(_path):
@@ -80,7 +75,11 @@ def trim(_path):
     cropped_image.save(_path, 'PNG')
 
 
-if command == 'resize':
-    resize(path, get_flag('width'), get_flag('height'))
-elif command == 'trim':
-    trim(path)
+if __name__ == '__main__':
+    command = get_arg(1, 'command', ['resize', 'trim'])
+    path = get_arg(2, 'path')
+
+    if command == 'resize':
+        resize(path, get_flag('width'), get_flag('height'))
+    elif command == 'trim':
+        trim(path)
