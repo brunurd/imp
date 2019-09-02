@@ -37,28 +37,47 @@ def get_flag(flag_name):
     return None
 
 
-command = get_arg(1, 'command', ['´resize', 'trim'])
+command = get_arg(1, 'command', ['resize', 'trim'])
 path = get_arg(2, 'path')
 
 
 def resize(_path, width, height):
-    pass
+    if width == None or height == None:
+        raise Exception(f'--width or --height flag not set.')
+
+    if not is_number(width) or not is_number(height):
+        raise Exception(f'width or height is not a number!')
+
+    size = (int(width), int(height))
+    image = Image.open(_path)
+    resized_image = image.resize(size, Image.ANTIALIAS)
+    resized_image.save(_path, 'PNG')
+
 
 
 def trim(_path):
     image = Image.open(_path)
     width, height = image.size
-    bounds = {'top': 0, 'bottom': 0, 'left': width, 'right': 0}
+    bounds = {'top': height, 'bottom': 0, 'left': width, 'right': 0}
 
     for y in range(1, height):
         for x in range(1, width):
             pixel = image.getpixel((x, y))
             if pixel[3] == 0:
                 continue
-            elif x < bounds['left']:
-                bounds['left'] = x
+            else:
+                if x < bounds['left']:
+                    bounds['left'] = x
+                if x > bounds['right']:
+                    bounds['right'] = x
+                if y < bounds['top']:
+                    bounds['top'] = y
+                if y > bounds['bottom']:
+                    bounds['bottom'] = y
 
-    print(bounds)
+    cropped_image = image.crop(
+        (bounds['left'], bounds['top'], bounds['right'], bounds['bottom']))
+    cropped_image.save(_path, 'PNG')
 
 
 if command == 'resize':

@@ -6,10 +6,10 @@ verify_ssl = true
 [dev-packages]
 autopep8 = "*"
 pyinstaller = "*"
+pylint = "*"
 
 [packages]
-pil = "*"
-pillow = "*"
+pillow = "==6.1.0"
 
 [requires]
 python_version = "3.7"
