@@ -18,7 +18,7 @@ def resize(_path, width, height):
 def crop(_path, bounds):
     image = Image.open(_path)
     cropped_image = image.crop(
-        (bounds['left'], bounds['top'], bounds['right'], bounds['bottom']))
+        (bounds['left'], bounds['top'], bounds['left'] + bounds['right'], bounds['top'] + bounds['bottom']))
     cropped_image.save(_path, 'PNG')
 
 
@@ -58,7 +58,7 @@ if __name__ == '__main__':
 
     elif command == 'crop':
         crop(path, {'top': cli.get_flag('top', 't'), 'bottom': cli.get_flag(
-            'bottom', 'b'), 'left': cli.get_flag('left', 'l'), 'right': cli.get_flag('right', 'r')})
+            'height', 'h'), 'left': cli.get_flag('left', 'l'), 'right': cli.get_flag('width', 'w')})
 
     elif command == 'trim':
         trim(path)
