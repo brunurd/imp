@@ -5,11 +5,11 @@ verify_ssl = true
 
 [dev-packages]
 autopep8 = "*"
-pyinstaller = "*"
 pylint = "*"
 
 [packages]
 pillow = "==6.1.0"
+pyinstaller = "==3.5"
 
 [requires]
 python_version = "3.7"
