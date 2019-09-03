@@ -1,48 +1,13 @@
-import sys
-import unicodedata
+from src.cli import Cli
 from PIL import Image
-
-
-def is_number(s):
-    try:
-        float(s)
-        return True
-    except ValueError:
-        pass
-    try:
-        unicodedata.numeric(s)
-        return True
-    except (TypeError, ValueError):
-        pass
-    return False
-
-
-def get_arg(index, name, valids=None):
-    if len(sys.argv) <= index:
-        raise Exception(f'No {name} found.')
-
-    if valids != None:
-        if sys.argv[index] not in valids:
-            raise Exception(f'The {name} "{sys.argv[index]}" is invalid.')
-
-    return sys.argv[index]
-
-
-def get_flag(flag_name):
-    for arg in sys.argv:
-        if arg == f'--{flag_name}':
-            index = sys.argv.index(arg, 0, len(sys.argv)) + 1
-            if len(sys.argv) > index:
-                return sys.argv[index]
-    return None
 
 
 def resize(_path, width, height):
     if width == None or height == None:
         raise Exception(f'--width or --height flag not set.')
 
-    if not is_number(width) or not is_number(height):
-        raise Exception(f'width or height is not a number!')
+    # if not is_number(width) or not is_number(height):
+    #     raise Exception(f'width or height is not a number!')
 
     size = (int(width), int(height))
     image = Image.open(_path)
@@ -83,15 +48,19 @@ def trim(_path):
 
 
 if __name__ == '__main__':
-    command = get_arg(1, 'command', ['resize', 'trim', 'crop'])
-    path = get_arg(2, 'path')
+    cli = Cli()
+
+    command = cli.get_arg(1, 'command', ['resize', 'trim', 'crop'])
+    path = cli.get_arg(2, 'path')
 
     if command == 'resize':
-        resize(path, get_flag('width'), get_flag('height'))
+        resize(path, cli.get_flag('width', 'w'), cli.get_flag('height', 'h'))
 
     elif command == 'crop':
-        crop(path, {'top': get_flag('top'), 'bottom': get_flag(
-            'bottom'), 'left': get_flag('left'), 'right': get_flag('right')})
+        crop(path, {'top': cli.get_flag('top', 't'), 'bottom': cli.get_flag(
+            'bottom', 'b'), 'left': cli.get_flag('left', 'l'), 'right': cli.get_flag('right', 'r')})
 
     elif command == 'trim':
         trim(path)
+
+    del cli
