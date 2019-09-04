@@ -1,5 +1,6 @@
 <h1><img src="icon/icon.png" align="left" width="32" height="32">imp</h1>
-Python 3 image processing cli.
+
+Image processing for command line interface using [Python3](https://www.python.org/downloads/) and [Pillow](https://pypi.org/project/Pillow/).
 
 
 ---
@@ -33,11 +34,11 @@ imp convert ~/image.png -ext ico
 
 
 | Valid  optional flags    |||
-|--------- |----|------------------------------------------------------|
-| --width  | -w | Width of the output image.                           |
-| --height | -h | Height of the output image.                          |
-| --top    | -t | The top of a crop rect.                              |
-| --left   | -l | The left of a crop rect.                             |
-| --ext    | -e | The output extension.                                |
-| --out    | -o | The output path.                                     |  
+|--------- |----|--------------------------------------------------------------------------------------------|
+| --width  | -w | Width of the output image.                                                                 |
+| --height | -h | Height of the output image.                                                                |
+| --top    | -t | The top of a crop rect.                                                                    |
+| --left   | -l | The left of a crop rect.                                                                   |
+| --ext    | -e | The output extension (Could be: 'PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO'). |
+| --out    | -o | The output path.                                                                           |  
 
