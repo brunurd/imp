@@ -1,66 +1,77 @@
+import colorama
 from src.cli import Cli
-from PIL import Image
+from src.imp import Imp
 
+def log(s):
+    print(f'IMP: {str(s)}')
 
-def resize(_path, width, height):
-    if width == None or height == None:
-        raise Exception(f'--width or --height flag not set.')
+def error(s):
+    print(f'{colorama.Fore.RED}IMP: Error: {str(s)}{colorama.Style.RESET_ALL}')
 
-    # if not is_number(width) or not is_number(height):
-    #     raise Exception(f'width or height is not a number!')
+def main():
+    help_text = """
 
-    size = (int(width), int(height))
-    image = Image.open(_path)
-    resized_image = image.resize(size, Image.ANTIALIAS)
-    resized_image.save(_path, 'PNG')
+Help:
+    imp <command> <input-file> <optional flags>
 
+Example: imp convert ~/image.png -ext ico
 
-def crop(_path, bounds):
-    image = Image.open(_path)
-    cropped_image = image.crop(
-        (bounds['left'], bounds['top'], bounds['left'] + bounds['right'], bounds['top'] + bounds['bottom']))
-    cropped_image.save(_path, 'PNG')
+Commands:
+    trim     Remove transparent pixels in the edges of the image.
+    convert  Change a file image type.
+    resize   Resize a image.
+    crop     Crop a part of the image.
 
+Flags:
+    --width   -w   Width of the output image.
+    --height  -h   Height of the output image.
+    --top     -t   The top of a crop rect.
+    --left    -l   The left of a crop rect.
+    --ext     -e   The output extension.
+    --out     -o   The output path.
 
-def trim(_path):
-    image = Image.open(_path)
-    width, height = image.size
-    bounds = {'top': height, 'bottom': 0, 'left': width, 'right': 0}
+"""
 
-    for y in range(1, height):
-        for x in range(1, width):
-            pixel = image.getpixel((x, y))
-            if pixel[3] == 0:
-                continue
-            else:
-                if x < bounds['left']:
-                    bounds['left'] = x
-                if x > bounds['right']:
-                    bounds['right'] = x + 1
-                if y < bounds['top']:
-                    bounds['top'] = y
-                if y > bounds['bottom']:
-                    bounds['bottom'] = y + 1
+    colorama.init()
+    try :
+        cli = Cli()
+        command = cli.get_arg(1, 'command', ['resize', 'trim', 'crop', 'convert', 'help'])
+        path = cli.get_arg(2, 'path')
+        imp = Imp(path)
 
-    cropped_image = image.crop(
-        (bounds['left'], bounds['top'], bounds['right'], bounds['bottom']))
-    cropped_image.save(_path, 'PNG')
+        # Flags.
+        w = cli.get_flag('width', 'w')
+        h = cli.get_flag('height', 'h')
+        t = cli.get_flag('top', 't')
+        l = cli.get_flag('left', 'l')
+        e = cli.get_flag('ext', 'e')
+        o = cli.get_flag('out', 'o')
 
+        if command == 'resize':
+            imp.resize(w, h, e, o)
+            log('Image resized with success!')
+
+        elif command == 'crop':
+            imp.crop(l, t, w, h, e, o)
+            log('Image cropped with success!')
+
+        elif command == 'trim':
+            imp.trim(e, o)
+            log('Image trimmed with success!')
+        
+        elif command == 'convert':
+            imp.convert(e, o)
+            log('Image converted with success!')
+
+        elif command == 'help':
+            print(help_text)
+
+        del cli
+        del imp
+
+    except Exception as e:
+        print(help_text)
+        error(e)
 
 if __name__ == '__main__':
-    cli = Cli()
-
-    command = cli.get_arg(1, 'command', ['resize', 'trim', 'crop'])
-    path = cli.get_arg(2, 'path')
-
-    if command == 'resize':
-        resize(path, cli.get_flag('width', 'w'), cli.get_flag('height', 'h'))
-
-    elif command == 'crop':
-        crop(path, {'top': cli.get_flag('top', 't'), 'bottom': cli.get_flag(
-            'height', 'h'), 'left': cli.get_flag('left', 'l'), 'right': cli.get_flag('width', 'w')})
-
-    elif command == 'trim':
-        trim(path)
-
-    del cli
+    main()

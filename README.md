@@ -14,14 +14,30 @@ python -m PyInstaller imp.spec
 
 ---
 
-## How to use?
+## Usage
 
-Trim transparent pixels of a image.
-```batch
-imp trim "image-path-here.png"
+```bash
+imp <command> <input-file> <optional flags>
+
+# Example:
+imp convert ~/image.png -ext ico
 ```
 
-Resize any image.
-```batch
-imp resize "image-path-here.png" --width 256 --height 256
-```
+
+| Valid commands    ||
+|---------|------------------------------------------------------|
+| trim    | Remove transparent pixels in the edges of the image. |
+| convert | Change a file image type.                            |
+| resize  | Resize a image.                                      |
+| crop    | Crop a part of the image.                            |  
+
+
+| Valid  optional flags    |||
+|--------- |----|------------------------------------------------------|
+| --width  | -w | Width of the output image.                           |
+| --height | -h | Height of the output image.                          |
+| --top    | -t | The top of a crop rect.                              |
+| --left   | -l | The left of a crop rect.                             |
+| --ext    | -e | The output extension.                                |
+| --out    | -o | The output path.                                     |  
+
