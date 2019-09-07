@@ -36,6 +36,12 @@ Flags:
     try :
         cli = Cli()
         command = cli.get_arg(1, 'command', ['resize', 'trim', 'crop', 'convert', 'help'])
+
+        if command == 'help':
+            print(help_text)
+            del cli
+            return
+
         path = cli.get_arg(2, 'path')
         imp = Imp(path)
 
@@ -47,24 +53,30 @@ Flags:
         e = cli.get_flag('ext', 'e')
         o = cli.get_flag('out', 'o')
 
+        if o != None:
+            imp.set_path(o)
+        if e != None:
+            imp.set_extension(e)
+
         if command == 'resize':
-            imp.resize(w, h, e, o)
-            log('Image resized with success!')
+            imp.resize(w, h)
+            imp.save()
+            log(f'Image resized with success in "{imp.get_path()}"!')
 
         elif command == 'crop':
-            imp.crop(l, t, w, h, e, o)
-            log('Image cropped with success!')
+            imp.crop(l, t, w, h)
+            imp.save()
+            log(f'Image cropped with success in "{imp.get_path()}"!')
 
         elif command == 'trim':
-            imp.trim(e, o)
-            log('Image trimmed with success!')
+            imp.trim()
+            imp.save()
+            log(f'Image trimmed with success in "{imp.get_path()}"!')
         
         elif command == 'convert':
-            imp.convert(e, o)
-            log('Image converted with success!')
-
-        elif command == 'help':
-            print(help_text)
+            imp.convert()
+            imp.save()
+            log(f'Image converted with success in "{imp.get_path()}"!')
 
         del cli
         del imp

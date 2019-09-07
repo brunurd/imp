@@ -5,11 +5,27 @@
   "version": "0.2.0",
   "configurations": [
     {
+      "name": "Help test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceRoot}/__main__.py",
+      "console": "internalConsole",
+      "args": ["help"]
+    },
+    {
+      "name": "Trim test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceRoot}/__main__.py",
+      "console": "internalConsole",
+      "args": ["trim", "icon/icon.png", "-o", "out/icon.jpg"]
+    },
+    {
       "name": "Convert test: create imp.ico",
       "type": "python",
       "request": "launch",
       "program": "${workspaceRoot}/__main__.py",
-      "console": "integratedTerminal",
+      "console": "internalConsole",
       "args": ["convert", "icon/icon.png", "-o", "./imp.ico", "-e", "ico"]
     }
   ]

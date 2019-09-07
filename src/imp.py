@@ -5,52 +5,92 @@ from PIL import Image
 
 class Imp:
     def __init__(self, path):
-        self.__path = path
-        self.input_image = Image.open(self.__path)
-        self.output_image = Image.open(self.__path)
-        self.width, self.height = self.input_image.size
+        directory = os.path.dirname(path)
+        filename, ext = os.path.splitext(os.path.basename(path))
+
+        self.__directory = directory if directory else '.'
+        self.__filename = filename if filename else 'image'
+        self.__extension = 'PNG'
+
+        regex = re.compile(r'^\.(.*)$')
+
+        if regex.search(ext):
+            ext = regex.findall(ext)[0].upper()
+            if ext in ['PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO']:
+                ext = 'JPEG' if ext == 'JPG' else ext
+                self.__extension = ext
+
+        self.__image = Image.open(path)
 
     def __del__(self):
-        del self.__path
-        del self.input_image
+        del self.__image
 
-    def resize(self, width, height, ext=None, out=None):
-        self.width = width if width != None and \
-            not isinstance(width, str) else self.width
+    def get_path(self):
+        return os.path.join(self.__directory, f'{self.__filename}.{self.__extension.lower()}')
 
-        self.height = height if height != None and \
-            not isinstance(height, str) else self.height
+    def set_path(self, path):
+        directory = os.path.dirname(path)
+        filename, ext = os.path.splitext(os.path.basename(path))
 
-        new_size = (int(self.width), int(self.height))
+        self.__directory = directory if directory else self.__directory
+        self.__filename = filename if filename else self.__filename
 
-        self.output_image = self.input_image.resize(new_size, Image.ANTIALIAS)
-        self.__save(ext, out)
+        regex = re.compile(r'^\.(.*)$')
+        if regex.search(ext):
+            self.set_extension(regex.findall(ext)[0])
 
-    def crop(self, left, top, width=None, height=None, ext=None, out=None):
-        if width == None:
-            width = self.width - left
+    def set_extension(self, ext):
+        ext = ext.upper()
+        if ext in ['PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO']:
+            ext = 'JPEG' if ext == 'JPG' else ext
+            self.__extension = ext
 
-        if height == None:
-            height = self.height - top
+    def save(self, path=None):
+        if path != None:
+            self.set_path(path)
+
+        if self.__extension == 'JPEG':
+                self.__image = self.__image.convert('RGB')
+
+        self.__image.save(self.get_path(), self.__extension)
+
+    def __validate_number(self, number, fallback):
+        return number if number != None and not isinstance(number, str) else fallback
+
+    def resize(self, width, height):
+        old_width, old_height = self.__image.size
+
+        width = self.__validate_number(width, old_width)
+        height = self.__validate_number(height, old_height)
+
+        new_size = (int(width), int(height))
+
+        self.__image = self.__image.resize(new_size, Image.ANTIALIAS)
+
+    def crop(self, left, top, width=None, height=None):
+        old_width, old_height = self.__image.size
+
+        width = self.__validate_number(width, old_width)
+        height = self.__validate_number(height, old_height)
 
         right = left + width
         bottom = top + height
 
-        self.output_image = self.input_image.crop((left, top, right, bottom))
-        self.__save(ext, out)
+        self.__image = self.__image.crop((left, top, right, bottom))
 
-    def convert(self, ext=None, out=None):
-        self.__save(ext, out)
+    def convert(self, ext=None):
+        self.set_extension(ext)
 
-    def trim(self, ext=None, out=None):
-        top = self.height
+    def trim(self, ext=None):
+        width, height = self.__image.size
+        top = height
         bottom = 0
-        left = self.width
+        left = width
         right = 0
 
-        for y in range(1, self.height):
-            for x in range(1, self.width):
-                pixel = self.input_image.getpixel((x, y))
+        for y in range(1, height):
+            for x in range(1, width):
+                pixel = self.__image.getpixel((x, y))
                 if pixel[3] == 0:
                     continue
                 else:
@@ -63,48 +103,4 @@ class Imp:
                     if y > bottom:
                         bottom = y + 1
 
-        self.output_image = self.input_image.crop((left, top, right, bottom))
-        self.__save(ext, out)
-
-    def __validate_extension(self, ext):
-        default_value = 'PNG'
-
-        if ext != None and isinstance(ext, str):
-            ext = ext.upper()
-            if ext in ['PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO']:
-                ext = 'JPEG' if ext == 'JPG' else ext
-
-                if ext == 'JPEG':
-                    self.output_image = self.output_image.convert('RGB')
-
-                return ext
-
-        return default_value
-
-    def __validate_out(self, ext, out):
-        regex = re.compile(r'(^(.*)(\/)(.*)(\..*?[^\/]$))|(^(.*)(\/))$|(^.*$)')
-        in_matches = regex.findall(self.__path)
-        default_value = os.path.join(in_matches[0][1], f'{in_matches[0][3]}.{ext.lower()}')
-
-        if out != None and isinstance(out, str):
-            out_matches = regex.findall(out)
-
-            if len(in_matches) > 0 and len(out_matches) > 0:
-                directory = out_matches[0][8] if out_matches[0][8] else ''
-                directory = out_matches[0][6] if out_matches[0][6] else directory
-                directory = out_matches[0][1] if out_matches[0][1] else directory
-                directory = directory if directory else in_matches[0][1]
-                filename = out_matches[0][3] if out_matches[0][3] else in_matches[0][3]
-
-                if not os.path.isdir(directory):
-                    os.makedirs(directory)
-
-                return os.path.join(directory, f'{filename}.{ext.lower()}')
-
-        return default_value
-
-
-    def __save(self, ext, out):
-        ext = self.__validate_extension(ext)
-        out = self.__validate_out(ext, out)
-        self.output_image.save(out, ext)
+        self.__image = self.__image.crop((left, top, right, bottom))
