@@ -50,7 +50,7 @@ class Imp:
             self.set_path(path)
 
         if self.__extension == 'JPEG':
-                self.__image = self.__image.convert('RGB')
+            self.__image = self.__image.convert('RGB')
 
         self.__image.save(self.get_path(), self.__extension)
 
@@ -78,7 +78,9 @@ class Imp:
 
         self.__image = self.__image.crop((left, top, right, bottom))
 
-    def convert(self, ext=None):
+    def convert(self, ext):
+        if not ext:
+            return
         self.set_extension(ext)
 
     def trim(self, ext=None):

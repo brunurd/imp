@@ -2,11 +2,18 @@ import colorama
 from src.cli import Cli
 from src.imp import Imp
 
+
+def version():
+    return (1, 1, 1)
+
+
 def log(s):
     print(f'IMP: {str(s)}')
 
+
 def error(s):
     print(f'{colorama.Fore.RED}IMP: Error: {str(s)}{colorama.Style.RESET_ALL}')
+
 
 def main():
     help_text = """
@@ -21,6 +28,8 @@ Commands:
     convert  Change a file image type.
     resize   Resize a image.
     crop     Crop a part of the image.
+    help     Show the help.
+    version  Show current Imp version.
 
 Flags:
     --width   -w   Width of the output image.
@@ -33,12 +42,19 @@ Flags:
 """
 
     colorama.init()
-    try :
+    try:
         cli = Cli()
-        command = cli.get_arg(1, 'command', ['resize', 'trim', 'crop', 'convert', 'help'])
+        command = cli.get_arg(
+            1, 'command', ['resize', 'trim', 'crop', 'convert', 'help', 'version'])
 
         if command == 'help':
             print(help_text)
+            del cli
+            return
+
+        if command == 'version':
+            major, minor, patch = version()
+            print(f'Imp Version: {major}.{minor}.{patch}')
             del cli
             return
 
@@ -72,9 +88,9 @@ Flags:
             imp.trim()
             imp.save()
             log(f'Image trimmed with success in "{imp.get_path()}"!')
-        
+
         elif command == 'convert':
-            imp.convert()
+            imp.convert(e)
             imp.save()
             log(f'Image converted with success in "{imp.get_path()}"!')
 
@@ -84,6 +100,7 @@ Flags:
     except Exception as e:
         print(help_text)
         error(e)
+
 
 if __name__ == '__main__':
     main()

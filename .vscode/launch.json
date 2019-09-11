@@ -13,6 +13,14 @@
       "args": ["help"]
     },
     {
+      "name": "Version test",
+      "type": "python",
+      "request": "launch",
+      "program": "${workspaceRoot}/__main__.py",
+      "console": "internalConsole",
+      "args": ["version"]
+    },
+    {
       "name": "Trim test",
       "type": "python",
       "request": "launch",
