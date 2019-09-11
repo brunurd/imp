@@ -21,7 +21,7 @@ python -m PyInstaller imp.spec
 imp <command> <input-file> <optional flags>
 
 # Example:
-imp convert ~/image.png -ext ico
+imp convert ~/image.png --ext ico
 ```
 
 

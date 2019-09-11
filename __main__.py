@@ -21,7 +21,7 @@ def main():
 Help:
     imp <command> <input-file> <optional flags>
 
-Example: imp convert ~/image.png -ext ico
+Example: imp convert ~/image.png --ext ico
 
 Commands:
     trim     Remove transparent pixels in the edges of the image.
