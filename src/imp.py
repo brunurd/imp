@@ -5,6 +5,9 @@ from PIL import Image
 
 class Imp:
     def __init__(self, path):
+        if not os.path.exists(path) and not os.path.isfile(path):
+            raise Exception(f'The file "{path}" don\'t exists!')
+
         directory = os.path.dirname(path)
         filename, ext = os.path.splitext(os.path.basename(path))
 
@@ -23,7 +26,8 @@ class Imp:
         self.__image = Image.open(path)
 
     def __del__(self):
-        del self.__image
+        if hasattr(self, '__image'):
+            del self.__image
 
     def get_path(self):
         return os.path.join(self.__directory, f'{self.__filename}.{self.__extension.lower()}')

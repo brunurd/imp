@@ -4,7 +4,7 @@ from src.imp import Imp
 
 
 def version():
-    return (1, 1, 1)
+    return (1, 1, 2)
 
 
 def log(s):
@@ -94,8 +94,11 @@ Flags:
             imp.save()
             log(f'Image converted with success in "{imp.get_path()}"!')
 
-        del cli
-        del imp
+        if cli in locals():
+            del cli
+
+        if imp in locals():
+            del imp
 
     except Exception as e:
         print(help_text)
