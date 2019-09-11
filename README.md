@@ -30,7 +30,9 @@ imp convert ~/image.png --ext ico
 | trim    | Remove transparent pixels in the edges of the image. |
 | convert | Change a file image type.                            |
 | resize  | Resize a image.                                      |
-| crop    | Crop a part of the image.                            |  
+| crop    | Crop a part of the image.                            |
+| help    | Show the help.                                       |
+| version | Show current Imp version.                            |  
 
 
 | Valid  optional flags    |||
