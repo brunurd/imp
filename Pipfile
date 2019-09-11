@@ -4,14 +4,11 @@ url = "https://pypi.org/simple"
 verify_ssl = true
 
 [dev-packages]
-autopep8 = "*"
-pylint = "*"
-rope = "*"
 
 [packages]
-pillow = "==6.1.0"
-pyinstaller = "==3.5"
 colorama = "==0.4.1"
+Pillow = "==6.1.0"
+PyInstaller = "==3.5"
 
 [requires]
 python_version = "3.7"
