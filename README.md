@@ -1,6 +1,6 @@
 <h1><img src="icon/icon.png" align="left" width="32" height="32">imp</h1>
 
-Image processing for command line interface using [Python3](https://www.python.org/downloads/) and [Pillow](https://pypi.org/project/Pillow/).
+Image processing for command line interface using [Python3](https://www.python.org/downloads/) and [Pillow](https://pypi.org/project/Pillow/) ([LICENSE](https://raw.githubusercontent.com/python-pillow/Pillow/master/LICENSE)).
 
 
 ---
