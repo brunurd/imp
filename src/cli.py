@@ -36,7 +36,7 @@ class Cli:
         arg = self.__args[index]
         return float(arg) if self.__is_number(arg) else arg
 
-    def get_flag(self, flag_name, flag_shortcut=None):
+    def get_flag_value(self, flag_name, flag_shortcut=None):
         for arg in self.__args:
             if arg == f'--{flag_name}' or arg == f'-{flag_shortcut}':
                 index = self.__args.index(arg, 0, len(self.__args)) + 1
@@ -44,3 +44,9 @@ class Cli:
                     flag = self.__args[index]
                     return float(flag) if self.__is_number(flag) else flag
         return None
+
+    def flag_exists(self, flag_name, flag_shortcut=None):
+        for arg in self.__args:
+            if arg == f'--{flag_name}' or arg == f'-{flag_shortcut}':
+                return True
+        return False

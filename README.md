@@ -10,7 +10,7 @@ Image processing for command line interface using [Python3](https://www.python.o
 ```batch
 pipenv shell
 pipenv install
-python -m PyInstaller imp.spec
+pipenv run PyInstaller imp.spec
 ```
 
 ---
@@ -30,17 +30,17 @@ imp convert ~/image.png --ext ico
 | trim    | Remove transparent pixels in the edges of the image. |
 | convert | Change a file image type.                            |
 | resize  | Resize a image.                                      |
-| crop    | Crop a part of the image.                            |
-| help    | Show the help.                                       |
-| version | Show current Imp version.                            |  
+| crop    | Crop a part of the image.                            |  
 
 
-| Valid  optional flags    |||
-|--------- |----|--------------------------------------------------------------------------------------------|
-| --width  | -w | Width of the output image.                                                                 |
-| --height | -h | Height of the output image.                                                                |
-| --top    | -t | The top of a crop rect.                                                                    |
-| --left   | -l | The left of a crop rect.                                                                   |
-| --ext    | -e | The output extension (Could be: 'PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO'). |
-| --out    | -o | The output path.                                                                           |  
+| Valid optional flags    |||
+|-----------|----|--------------------------------------------------------------------------------------------|
+| --width   | -w | Width of the output image.                                                                 |
+| --height  | -h | Height of the output image.                                                                |
+| --top     | -t | The top of a crop rect.                                                                    |
+| --left    | -l | The left of a crop rect.                                                                   |
+| --ext     | -e | The output extension (Could be: 'PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO'). |
+| --out     | -o | The output path.                                                                           |
+| --version | -v | Show current Imp version.                                                                  |
+| --help    | -p | Show the help.                                                                             |  
 

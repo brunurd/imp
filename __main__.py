@@ -4,7 +4,8 @@ from src.imp import Imp
 
 
 def version():
-    return (1, 1, 2)
+    major, minor, patch = (1, 1, 3)
+    print(f'Imp (Image processing CLI)\nVersion: {major}.{minor}.{patch}')
 
 
 def log(s):
@@ -15,9 +16,9 @@ def error(s):
     print(f'{colorama.Fore.RED}IMP: Error: {str(s)}{colorama.Style.RESET_ALL}')
 
 
-def main():
-    help_text = """
-
+def show_help():
+    version()
+    print("""
 Help:
     imp <command> <input-file> <optional flags>
 
@@ -28,46 +29,49 @@ Commands:
     convert  Change a file image type.
     resize   Resize a image.
     crop     Crop a part of the image.
-    help     Show the help.
-    version  Show current Imp version.
 
-Flags:
-    --width   -w   Width of the output image.
-    --height  -h   Height of the output image.
-    --top     -t   The top of a crop rect.
-    --left    -l   The left of a crop rect.
-    --ext     -e   The output extension.
-    --out     -o   The output path.
+Options:
+    --width    -w   Width of the output image.
+    --height   -h   Height of the output image.
+    --top      -t   The top of a crop rect.
+    --left     -l   The left of a crop rect.
+    --ext      -e   The output extension.
+    --out      -o   The output path.
+    --version  -v   Show current Imp version.
+    --help     -p   Show the help.
 
-"""
+""")
 
+
+def main():
     colorama.init()
+
     try:
         cli = Cli()
+
+        if cli.flag_exists('version', 'v'):
+            version()
+            del cli
+            return
+
+        if cli.flag_exists('help', 'p'):
+            show_help()
+            del cli
+            return
+
         command = cli.get_arg(
-            1, 'command', ['resize', 'trim', 'crop', 'convert', 'help', 'version'])
-
-        if command == 'help':
-            print(help_text)
-            del cli
-            return
-
-        if command == 'version':
-            major, minor, patch = version()
-            print(f'Imp Version: {major}.{minor}.{patch}')
-            del cli
-            return
+            1, 'command', ['resize', 'trim', 'crop', 'convert'])
 
         path = cli.get_arg(2, 'path')
         imp = Imp(path)
 
         # Flags.
-        w = cli.get_flag('width', 'w')
-        h = cli.get_flag('height', 'h')
-        t = cli.get_flag('top', 't')
-        l = cli.get_flag('left', 'l')
-        e = cli.get_flag('ext', 'e')
-        o = cli.get_flag('out', 'o')
+        w = cli.get_flag_value('width', 'w')
+        h = cli.get_flag_value('height', 'h')
+        t = cli.get_flag_value('top', 't')
+        l = cli.get_flag_value('left', 'l')
+        e = cli.get_flag_value('ext', 'e')
+        o = cli.get_flag_value('out', 'o')
 
         if o != None:
             imp.set_path(o)
@@ -100,9 +104,9 @@ Flags:
         if imp in locals():
             del imp
 
-    except Exception as e:
-        print(help_text)
-        error(e)
+    except Exception as err:
+        show_help()
+        error(err)
 
 
 if __name__ == '__main__':

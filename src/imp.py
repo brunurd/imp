@@ -1,5 +1,6 @@
 import re
 import os
+from io import BytesIO
 from PIL import Image
 
 
@@ -43,6 +44,9 @@ class Imp:
         if regex.search(ext):
             self.set_extension(regex.findall(ext)[0])
 
+        if not os.path.exists(directory):
+            os.mkdir(directory)
+
     def set_extension(self, ext):
         ext = ext.upper()
         if ext in ['PNG', 'PPM', 'JPEG', 'JPG', 'GIF', 'TIFF', 'BMP', 'ICO']:
@@ -54,9 +58,15 @@ class Imp:
             self.set_path(path)
 
         if self.__extension == 'JPEG':
-            self.__image = self.__image.convert('RGB')
+            self.__image.convert('RGB').save(self.get_path())
+        else:
+            self.__image.save(self.get_path(), self.__extension)
 
-        self.__image.save(self.get_path(), self.__extension)
+    def get_bytes(self):
+        data = BytesIO()
+        self.__image.save(data, self.__extension)
+        data.seek(0)
+        return data
 
     def __validate_number(self, number, fallback):
         return number if number != None and not isinstance(number, str) else fallback

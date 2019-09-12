@@ -10,7 +10,7 @@
       "request": "launch",
       "program": "${workspaceRoot}/__main__.py",
       "console": "internalConsole",
-      "args": ["help"]
+      "args": ["--help"]
     },
     {
       "name": "Version test",
@@ -18,7 +18,7 @@
       "request": "launch",
       "program": "${workspaceRoot}/__main__.py",
       "console": "internalConsole",
-      "args": ["version"]
+      "args": ["--version"]
     },
     {
       "name": "Trim test",
