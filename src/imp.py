@@ -1,8 +1,9 @@
 import re
 import os
 from io import BytesIO
-from PIL import Image
+from PIL import Image,BmpImagePlugin,GifImagePlugin,Jpeg2KImagePlugin,JpegImagePlugin,PngImagePlugin,TiffImagePlugin,WmfImagePlugin,IcoImagePlugin,PpmImagePlugin
 
+Image._initialized=2
 
 class Imp:
     def __init__(self, path):
