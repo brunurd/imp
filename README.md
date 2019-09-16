@@ -5,16 +5,6 @@ Image processing for command line interface using [Python3](https://www.python.o
 
 ---
 
-## How to build (using pipenv)
-
-```batch
-pipenv shell
-pipenv install
-pipenv run PyInstaller imp.spec
-```
-
----
-
 ## Usage
 
 ```bash
@@ -44,3 +34,23 @@ imp convert ~/image.png --ext ico
 | --version | -v | Show current Imp version.                                                                  |
 | --help    | -p | Show the help.                                                                             |  
 
+
+---  
+
+
+## How to build
+
+_**Pipenv bug:** Currently don't work well with the Pillow modules: ```BmpImagePlugin,GifImagePlugin,Jpeg2KImagePlugin,JpegImagePlugin,PngImagePlugin,TiffImagePlugin,WmfImagePlugin,IcoImagePlugin,PpmImagePlugin```. ([issue](https://github.com/brunurd/imp/issues/3))_  
+
+
+To build use pip with the `requirements.txt` to install dependencies:  
+
+
+```bash
+python -m pip install -r requirements.txt
+```
+
+and run `PyInstaller`, in Windows just run:  
+```bash
+python -m PyInstaller imp.spec
+```
