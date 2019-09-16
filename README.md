@@ -47,10 +47,10 @@ To build use pip with the `requirements.txt` to install dependencies:
 
 
 ```bash
-python -m pip install -r requirements.txt
+pip install -r requirements.txt
 ```
 
 and run `PyInstaller`, in Windows just run:  
 ```bash
-python -m PyInstaller imp.spec
+PyInstaller imp.spec
 ```
