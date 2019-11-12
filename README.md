@@ -50,7 +50,14 @@ To build use pip with the `requirements.txt` to install dependencies:
 pip install -r requirements.txt
 ```
 
-and run `PyInstaller`, in Windows just run:  
+and run `PyInstaller`:  
 ```bash
-PyInstaller imp.spec
+# In Windows
+PyInstaller PyInstaller/imp.windows.spec
+
+# In Linux
+PyInstaller PyInstaller/imp.linux.spec
+
+# Or generate your own spec file
+PyInstaller __main__.py
 ```

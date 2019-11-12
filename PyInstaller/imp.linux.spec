@@ -3,7 +3,7 @@
 block_cipher = None
 
 
-a = Analysis(['__main__.py'],
+a = Analysis(['../__main__.py'],
              binaries=[],
              datas=[],
              hiddenimports=[],
@@ -18,15 +18,20 @@ pyz = PYZ(a.pure, a.zipped_data,
              cipher=block_cipher)
 exe = EXE(pyz,
           a.scripts,
-          a.binaries,
-          a.zipfiles,
-          a.datas,
           [],
+          exclude_binaries=True,
           name='imp',
           debug=False,
           bootloader_ignore_signals=False,
           strip=False,
           upx=True,
-          upx_exclude=[],
-          runtime_tmpdir=None,
-          console=True , icon='imp.ico')
+          console=True )
+coll = COLLECT(exe,
+               a.binaries,
+               a.zipfiles,
+               a.datas,
+               strip=False,
+               upx=True,
+               upx_exclude=[],
+               name='imp',
+               icon='../imp.ico')
