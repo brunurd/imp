@@ -8,3 +8,9 @@ The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.0.0/).
 
 ### Added
 - CHANGELOG.md file
+- pytest as dev package
+
+### Changed
+- bump colorama version to 0.4.4
+- bump PyInstaller version to 4.0
+- specify version of pylint, autopep8 and pytest
