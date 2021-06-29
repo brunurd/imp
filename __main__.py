@@ -4,7 +4,7 @@ from src.imp import Imp
 
 
 def version():
-    major, minor, patch = (1, 1, 5)
+    major, minor, patch = (1, 1, 6)
     print(f'Imp (Image processing CLI)\nVersion: {major}.{minor}.{patch}')
 
 

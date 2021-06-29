@@ -40,13 +40,17 @@ imp convert ~/image.png --ext ico
 
 ## How to build
 
-_**Pipenv bug:** Currently don't work well with the Pillow modules: ```BmpImagePlugin,GifImagePlugin,Jpeg2KImagePlugin,JpegImagePlugin,PngImagePlugin,TiffImagePlugin,WmfImagePlugin,IcoImagePlugin,PpmImagePlugin```. ([issue](https://github.com/brunurd/imp/issues/3))_  
+<!-- _**Pipenv bug:** Currently don't work well with the Pillow modules: ```BmpImagePlugin,GifImagePlugin,Jpeg2KImagePlugin,JpegImagePlugin,PngImagePlugin,TiffImagePlugin,WmfImagePlugin,IcoImagePlugin,PpmImagePlugin```. ([issue](https://github.com/brunurd/imp/issues/3))_   -->
 
 
-To build use pip with the `requirements.txt` to install dependencies:  
+To build first install dependencies:  
 
 
 ```bash
+# with pipenv
+pipenv install
+
+# or with global pipy
 pip install -r requirements.txt
 ```
 
