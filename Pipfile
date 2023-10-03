@@ -9,7 +9,7 @@ autopep8 = "*"
 
 [packages]
 colorama = "==0.4.1"
-Pillow = "==8.2.0"
+Pillow = "==10.0.1"
 PyInstaller = "==3.6"
 
 [requires]
